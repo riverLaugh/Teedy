@@ -24,17 +24,12 @@ pipeline {
 
     }
     post {
+    post {
         always {
             archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
-            // Archive Surefire reports
-            archiveArtifacts artifacts: '**/target/surefire-reports/**', fingerprint: true
-            archiveArtifacts artifacts: '**/target/pmd.html', fingerprint: true
-            archiveArtifacts artifacts: '**/target/*.xml', fingerprint: true
-            // Archive Javadoc artifacts
-            archiveArtifacts artifacts: '**/target/site/apidocs/**', fingerprint: true
-            archiveArtifacts artifacts: '**/target/site/apidocs/**', fingerprint: true
+            archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
+            archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
         }
+    }
     }
 }
