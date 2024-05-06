@@ -1,27 +1,26 @@
 pipeline {
     agent any
-    stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package' // Build project without tests
+    stages{
+        stage('Build'){
+            steps{
+                sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('Unit Tests') {
-            steps {
-                sh 'mvn test' // Execute unit tests using Maven Surefire plugin
+        stage('Doc'){
+            steps{
+                sh 'mvn javadoc:jar'
             }
         }
-        stage('Javadoc Generation') {
-            steps {
-                sh 'mvn javadoc:javadoc' // Generate Javadoc using Maven Javadoc plugin
-            }
-        }
-        stage('pmd') {
-                steps {
+        stage('pmd'){
+            steps{
                 sh 'mvn pmd:pmd'
             }
         }
-
+        stage('Test'){
+            steps{
+                sh 'mvn test'
+            }
+        }
     }
 
     post {
@@ -29,7 +28,10 @@ pipeline {
             archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
             archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
             archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
+            archiveArtifacts artifacts: '**/target/**/*.html', fingerprint: true
+            archiveArtifacts artifacts: '**/target/**/*.xml', fingerprint: true
+
+
         }
     }
-
 }
